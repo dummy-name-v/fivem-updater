@@ -9,13 +9,11 @@ import (
 	"strings"
 )
 
-type _tagCommit struct {
-	Sha string `json:"sha"`
-}
-
-type _tag struct {
-	Name   string     `json:"name"`
-	Commit _tagCommit `json:"commit"`
+type rawTag struct {
+	Name   string `json:"name"`
+	Commit struct {
+		Sha string `json:"sha"`
+	} `json:"commit"`
 }
 
 type Tag struct {
@@ -23,7 +21,7 @@ type Tag struct {
 	Sha     string
 }
 
-func fetchRepositoryTags(repo string) ([]_tag, error) {
+func fetchRepositoryTags(repo string) ([]rawTag, error) {
 	response, err := http.Get(fmt.Sprintf("https://api.github.com/repos/%s/tags", repo))
 	if err != nil {
 		return nil, fmt.Errorf("an error occured while fetching %s repo tags", repo)
@@ -32,13 +30,13 @@ func fetchRepositoryTags(repo string) ([]_tag, error) {
 		_ = Body.Close()
 	}(response.Body)
 
-	var githubTags []_tag
+	var rawTags []rawTag
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
 
-	return githubTags, json.Unmarshal(body, &githubTags)
+	return rawTags, json.Unmarshal(body, &rawTags)
 }
 
 func GetLatestRepositoryTag(repo string) (*Tag, error) {
