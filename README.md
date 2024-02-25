@@ -11,5 +11,5 @@ go build -o updater.exe
 ./updater.exe -windows -o path
 ```
 
-- The platform flag is optional and will fallback to your OS ``(window/linux)``
-- The out flag is optional and will fallback to the folder ``binaries`` in the current working directory
+- The platform flag is optional and will fall back to your OS ``(window/linux)``
+- The out flag is optional and will fall back to the folder ``binaries`` in the current working directory
