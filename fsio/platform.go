@@ -2,8 +2,8 @@ package fsio
 
 import (
 	"fmt"
-	"log"
 	"runtime"
+	"strings"
 )
 
 type Platform string
@@ -36,8 +36,8 @@ func ParseArguments(args []string) (*Platform, string, error) {
 		switch args[i] {
 		case "-o":
 			{
-				if i+1 < l {
-					log.Fatal("NOP")
+				if l < i+2 || strings.HasPrefix(args[i+2], "-") {
+					return nil, "", fmt.Errorf("not enough arguments passed for the output")
 				}
 
 				out = args[i+1]
@@ -52,8 +52,8 @@ func ParseArguments(args []string) (*Platform, string, error) {
 		}
 	}
 
-	a, err := Platforms.Validate(platform)
-	return a, out, err
+	_platform, err := Platforms.Validate(platform)
+	return _platform, out, err
 }
 
 var Platforms = platformStruct{

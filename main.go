@@ -10,17 +10,17 @@ import (
 const REPO = "citizenfx/fivem"
 
 func main() {
+	platform, out, err := fsio.ParseArguments(os.Args[1:])
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	cfg, err := fsio.GetConfig("updater.json")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	tag, err := github.GetLatestRepositoryTag(REPO)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	platform, out, err := fsio.ParseArguments(os.Args[1:])
 	if err != nil {
 		log.Fatal(err)
 	}
