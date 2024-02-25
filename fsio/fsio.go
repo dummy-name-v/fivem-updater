@@ -34,13 +34,17 @@ func DownloadFile(url string, filePath string) error {
 	if err != nil {
 		return err
 	}
-	defer out.Close()
+	defer func(out *os.File) {
+		_ = out.Close()
+	}(out)
 
 	response, err := http.Get(url)
 	if err != nil {
 		return err
 	}
-	defer response.Body.Close()
+	defer func(out *os.File) {
+		_ = response.Body.Close()
+	}(out)
 
 	if response.StatusCode != http.StatusOK {
 		return fmt.Errorf("bad status: %s", response.Status)
