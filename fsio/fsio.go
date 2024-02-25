@@ -28,7 +28,7 @@ func GetFileAssociation(platform *Platform, tag *github.Tag) (string, string) {
 }
 
 func DownloadFile(url string, filePath string) error {
-	fmt.Println("> Downloading binaries..")
+	log.Println("> Downloading binaries..")
 
 	out, err := os.Create(filePath)
 	if err != nil {
@@ -86,7 +86,7 @@ func getUnzipCommand(platform *Platform, in string, out string) *exec.Cmd {
 }
 
 func UnzipArchive(platform *Platform, in string, out string) error {
-	fmt.Println("> Unzipping binaries..")
+	log.Println("> Unzipping binaries..")
 
 	if err := removeDirectoryContent("./binaries"); err != nil {
 		return err

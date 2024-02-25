@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fivem-updater/github"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -32,7 +33,7 @@ func GetConfig(filePath string) (*Config, error) {
 	config := &Config{filePath: filePath}
 	err = json.Unmarshal(file, config)
 	if err != nil {
-		fmt.Println("unable to locate the updater config, creating it for you..")
+		log.Println("unable to locate the updater config, creating it for you..")
 		if err := os.WriteFile(filePath, []byte("{}"), os.ModePerm); err != nil {
 			return nil, err
 		}

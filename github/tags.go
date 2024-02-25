@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -41,7 +42,7 @@ func fetchRepositoryTags(repo string) ([]_tag, error) {
 }
 
 func GetLatestRepositoryTag(repo string) (*Tag, error) {
-	fmt.Println("> Fetching latest version..")
+	log.Println("> Fetching latest version..")
 
 	tags, err := fetchRepositoryTags(repo)
 	if err != nil {
