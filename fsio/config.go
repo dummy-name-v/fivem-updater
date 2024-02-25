@@ -25,21 +25,20 @@ func (c *Config) UpdateHash(hash string) error {
 }
 
 func GetConfig(filePath string) (*Config, error) {
-	file, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, err
-	}
-
-	config := &Config{filePath: filePath}
-	err = json.Unmarshal(file, config)
-	if err != nil {
+	if _, err := os.Stat(filePath); err != nil {
 		log.Println("unable to locate the updater config, creating it for you..")
 		if err := os.WriteFile(filePath, []byte("{}"), os.ModePerm); err != nil {
 			return nil, err
 		}
 	}
 
-	return config, nil
+	file, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+
+	config := &Config{filePath: filePath}
+	return config, json.Unmarshal(file, config)
 }
 
 func FormatConfigHash(platform *Platform, tag *github.Tag) string {
